@@ -1,0 +1,7 @@
+{
+  "name": "fitplanner",
+  "integrations": {
+    "capacitor": {}
+  },
+  "type": "angular"
+}
