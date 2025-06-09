@@ -1,0 +1,90 @@
+<ion-header class="animated-header">
+  <ion-toolbar color="primary">
+    <ion-title>FitPlanner</ion-title>
+  </ion-toolbar>
+  
+  <ion-toolbar>
+    <ion-segment [(ngModel)]="selectedSegment" color="primary" scrollable>
+      <ion-segment-button value="overview">
+        <ion-icon name="bar-chart-outline"></ion-icon>
+        <ion-label class="segment-label-large">Resumen</ion-label>
+      </ion-segment-button>
+      <ion-segment-button value="workouts">
+        <ion-icon name="fitness-outline"></ion-icon>
+        <ion-label class="segment-label-large">Rutinas</ion-label>
+      </ion-segment-button>
+      <ion-segment-button value="tips">
+        <ion-icon name="bulb-outline"></ion-icon>
+        <ion-label class="segment-label-large">Consejos</ion-label>
+      </ion-segment-button>
+    </ion-segment>
+  </ion-toolbar>
+</ion-header>
+
+<ion-content class="ion-padding" fullscreen>
+  <ng-container [ngSwitch]="selectedSegment">
+
+    <ion-card *ngSwitchCase="'overview'" class="card-segment">
+      <ion-card-header>
+        <ion-card-title class="card-title-large">Resumen de Hoy</ion-card-title>
+      </ion-card-header>
+      <ion-card-content>
+        <ion-list lines="none">
+          <ion-item>
+            <ion-icon slot="start" name="checkmark-done-circle-outline" color="success"></ion-icon>
+            <span class="content-text-large">Has completado <strong>2</strong> rutinas esta semana.</span>
+          </ion-item>
+          <ion-item>
+            <ion-icon slot="start" name="flame-outline" color="danger"></ion-icon>
+            <span class="content-text-large">Calorías quemadas: <strong>1200 kcal</strong></span>
+          </ion-item>
+        </ion-list>
+      </ion-card-content>
+    </ion-card>
+
+    <ion-card *ngSwitchCase="'workouts'" class="card-segment">
+      <ion-card-header>
+        <ion-card-title class="card-title-large">Rutinas Recomendadas</ion-card-title>
+      </ion-card-header>
+      <ion-card-content>
+        <ion-list>
+          <ion-item button detail="false" class="content-text-large">
+            <ion-icon slot="start" name="fitness-outline" color="primary"></ion-icon>
+            Rutina Full Body - 45 minutos
+          </ion-item>
+          <ion-item button detail="false" class="content-text-large">
+            <ion-icon slot="start" name="walk-outline" color="tertiary"></ion-icon>
+            Cardio Intensivo - 30 minutos
+          </ion-item>
+          <ion-item button detail="false" class="content-text-large">
+            <ion-icon slot="start" name="body-outline" color="warning"></ion-icon>
+            Fuerza y Tonificación - 40 minutos
+          </ion-item>
+        </ion-list>
+      </ion-card-content>
+    </ion-card>
+
+    <ion-card *ngSwitchCase="'tips'" class="card-segment">
+      <ion-card-header>
+        <ion-card-title class="card-title-large">Consejos para Entrenar</ion-card-title>
+      </ion-card-header>
+      <ion-card-content>
+        <ion-list lines="none">
+          <ion-item class="content-text-large">
+            <ion-icon slot="start" name="water-outline" color="primary"></ion-icon>
+            Hidrátate bien antes y después del ejercicio.
+          </ion-item>
+          <ion-item class="content-text-large">
+            <ion-icon slot="start" name="fitness-outline" color="secondary"></ion-icon>
+            Realiza calentamiento antes de empezar la rutina.
+          </ion-item>
+          <ion-item class="content-text-large">
+            <ion-icon slot="start" name="swap-vertical-outline" color="success"></ion-icon>
+            Combina ejercicios de fuerza y cardio.
+          </ion-item>
+        </ion-list>
+      </ion-card-content>
+    </ion-card>
+
+  </ng-container>
+</ion-content>

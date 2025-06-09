@@ -1,0 +1,56 @@
+<ion-header>
+  <ion-toolbar color="primary">
+    <ion-buttons slot="start">
+      <ion-back-button defaultHref="/login"></ion-back-button>
+    </ion-buttons>
+    <ion-title class="animated-header">Registro</ion-title>
+  </ion-toolbar>
+</ion-header>
+
+<ion-content class="ion-padding">
+  <form [formGroup]="registerForm" (ngSubmit)="onSubmit()">
+    <!-- Nombre -->
+    <ion-item class="fade-slide-up delay-1">
+      <ion-label position="floating">Nombre</ion-label>
+      <ion-input type="text" formControlName="name"></ion-input>
+    </ion-item>
+    <ion-text color="danger" *ngIf="name.invalid && name.touched" class="fade-slide-up delay-2">
+      <p *ngIf="name.errors?.['required']">El nombre es obligatorio.</p>
+    </ion-text>
+
+    <!-- Correo -->
+    <ion-item class="fade-slide-up delay-3">
+      <ion-label position="floating">Correo</ion-label>
+      <ion-input type="email" formControlName="email"></ion-input>
+    </ion-item>
+    <ion-text color="danger" *ngIf="email.invalid && email.touched" class="fade-slide-up delay-4">
+      <p *ngIf="email.errors?.['required']">El correo es obligatorio.</p>
+      <p *ngIf="email.errors?.['email']">Correo no válido.</p>
+    </ion-text>
+
+    <!-- Contraseña -->
+    <ion-item class="fade-slide-up delay-5">
+      <ion-label position="floating">Contraseña</ion-label>
+      <ion-input type="password" formControlName="password"></ion-input>
+    </ion-item>
+    <ion-text color="danger" *ngIf="password.invalid && password.touched" class="fade-slide-up delay-6">
+      <p *ngIf="password.errors?.['required']">La contraseña es obligatoria.</p>
+      <p *ngIf="password.errors?.['minlength']">Mínimo 6 caracteres.</p>
+    </ion-text>
+
+    <!-- Confirmar contraseña -->
+    <ion-item class="fade-slide-up delay-6">
+      <ion-label position="floating">Confirmar contraseña</ion-label>
+      <ion-input type="password" formControlName="confirmPassword"></ion-input>
+    </ion-item>
+    <ion-text color="danger" *ngIf="confirmPassword.invalid && confirmPassword.touched" class="fade-slide-up delay-6">
+      <p>Debes confirmar la contraseña.</p>
+    </ion-text>
+    <ion-text color="danger" *ngIf="password.value !== confirmPassword.value && confirmPassword.touched" class="fade-slide-up delay-6">
+      <p>Las contraseñas no coinciden.</p>
+    </ion-text>
+
+    <!-- Botón -->
+    <ion-button expand="block" type="submit" class="fade-slide-up delay-6">Registrarse</ion-button>
+  </form>
+</ion-content>

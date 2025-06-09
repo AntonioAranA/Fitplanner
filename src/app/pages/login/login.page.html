@@ -1,0 +1,48 @@
+<ion-header class="animated-header">
+  <ion-toolbar color="primary">
+    <ion-title>Iniciar Sesión</ion-title>
+  </ion-toolbar>
+</ion-header>
+
+<ion-content class="ion-padding">
+
+  <form [formGroup]="loginForm" (ngSubmit)="onLogin()" class="animated-form">
+
+    <ion-item class="fade-slide-up">
+      <ion-label position="floating">Correo electrónico</ion-label>
+      <ion-input type="email" formControlName="email"></ion-input>
+    </ion-item>
+
+    <ion-text color="danger" *ngIf="email.invalid && email.touched" class="fade-slide-up delay-1">
+      <p *ngIf="email.errors?.['required']">El correo es obligatorio.</p>
+      <p *ngIf="email.errors?.['email']">Formato de correo inválido.</p>
+    </ion-text>
+
+    <ion-item class="fade-slide-up delay-2">
+      <ion-label position="floating">Contraseña</ion-label>
+      <ion-input type="password" formControlName="password"></ion-input>
+    </ion-item>
+
+    <ion-text color="danger" *ngIf="password.invalid && password.touched" class="fade-slide-up delay-3">
+      <p *ngIf="password.errors?.['required']">La contraseña es obligatoria.</p>
+      <p *ngIf="password.errors?.['minlength']">Mínimo 6 caracteres.</p>
+    </ion-text>
+
+    <ion-button expand="block" type="submit" [disabled]="loginForm.invalid" class="ion-margin-top fade-slide-up delay-4">
+      Ingresar
+    </ion-button>
+
+  </form>
+
+  <ion-text color="danger" *ngIf="loginError" class="ion-text-center ion-margin-top fade-slide-up delay-5">
+    {{ loginError }}
+  </ion-text>
+
+  <div class="ion-text-center ion-margin-top fade-slide-up delay-6">
+    <ion-text>
+      ¿No tienes cuenta?
+      <a routerLink="/register">Regístrate</a>
+    </ion-text>
+  </div>
+
+</ion-content>

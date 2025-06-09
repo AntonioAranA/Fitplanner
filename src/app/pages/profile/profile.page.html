@@ -1,0 +1,20 @@
+<ion-header class="animated-header">
+  <ion-toolbar color="primary">
+    <ion-title>Perfil</ion-title>
+  </ion-toolbar>
+</ion-header>
+
+<ion-content class="ion-padding">
+  <ion-card class="fade-slide-up">
+    <ion-card-header>
+      <ion-card-title>👤 {{ user.name }}</ion-card-title>
+    </ion-card-header>
+    <ion-card-content>
+      <p>✉️ {{ user.email }}</p>
+    </ion-card-content>
+  </ion-card>
+
+  <ion-button type="button" expand="block" color="danger" (click)="logout()" class="fade-slide-up delay-1">
+    Cerrar sesión
+  </ion-button>
+</ion-content>

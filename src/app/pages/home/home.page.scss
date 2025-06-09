@@ -1,0 +1,45 @@
+.card-segment {
+  opacity: 0;
+  transform: translateY(10px);
+  animation: fadeInUp 0.4s forwards;
+}
+
+/* Animación fade-in */
+@keyframes fadeInUp {
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+/* Segment label más grande */
+.segment-label-large {
+  font-size: 1.2rem;
+  font-weight: 600;
+}
+
+/* Título de card más grande */
+.card-title-large {
+  font-size: 1.6rem;
+  font-weight: 700;
+}
+
+/* Texto contenido más grande */
+.content-text-large {
+  font-size: 1.2rem;
+}
+
+.animated-header {
+  animation: slideDownFadeIn 600ms ease forwards;
+}
+
+@keyframes slideDownFadeIn {
+  0% {
+    opacity: 0;
+    transform: translateY(-20px);
+  }
+  100% {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}

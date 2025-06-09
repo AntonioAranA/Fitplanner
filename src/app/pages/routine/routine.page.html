@@ -1,0 +1,15 @@
+<ion-header class="animated-header">
+  <ion-toolbar color="primary">
+    <ion-title>Rutina del Día</ion-title>
+  </ion-toolbar>
+</ion-header>
+
+<ion-content [fullscreen]="true" class="ion-padding">
+  <ion-card *ngFor="let ejercicio of rutina" class="touch-card card-flex">
+    <img [src]="ejercicio.imagen" alt="{{ ejercicio.nombre }}" class="card-image" />
+    <ion-card-header class="card-header-flex">
+      <ion-card-title>{{ ejercicio.nombre }}</ion-card-title>
+      <ion-card-subtitle>{{ ejercicio.repeticiones }}</ion-card-subtitle>
+    </ion-card-header>
+  </ion-card>
+</ion-content>
