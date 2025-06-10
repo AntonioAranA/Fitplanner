@@ -30,30 +30,33 @@ export class LoginPage implements OnInit {
   }
 
   onLogin() {
-    if (this.loginForm.valid) {
-      const storedUserStr = localStorage.getItem('user');
+  if (this.loginForm.valid) {
+    const storedUserStr = localStorage.getItem('user');
 
-      if (!storedUserStr) {
-        this.loginError = 'No hay usuarios registrados. Por favor regístrate primero.';
-        return;
-      }
-
-      const storedUser = JSON.parse(storedUserStr);
-
-      if (
-        storedUser.email === this.email.value &&
-        storedUser.password === this.password.value
-      ) {
-        // Login exitoso
-        this.loginError = null;
-        console.log('Login exitoso', this.loginForm.value);
-        this.router.navigate(['/tabs/home']);
-      } else {
-        // Credenciales incorrectas
-        this.loginError = 'Email o contraseña incorrectos.';
-      }
-    } else {
-      this.loginForm.markAllAsTouched();
+    if (!storedUserStr) {
+      this.loginError = 'No hay usuarios registrados. Por favor regístrate primero.';
+      return;
     }
+
+    const storedUser = JSON.parse(storedUserStr);
+
+    if (
+      storedUser.email === this.email.value &&
+      storedUser.password === this.password.value
+    ) {
+      // Login exitoso - actualizar isLoggedIn
+      storedUser.isLoggedIn = true;
+      localStorage.setItem('user', JSON.stringify(storedUser));
+
+      this.loginError = null;
+      console.log('Login exitoso', this.loginForm.value);
+      this.router.navigate(['/tabs/home']);
+    } else {
+      // Credenciales incorrectas
+      this.loginError = 'Email o contraseña incorrectos.';
+    }
+  } else {
+    this.loginForm.markAllAsTouched();
   }
+}
 }
