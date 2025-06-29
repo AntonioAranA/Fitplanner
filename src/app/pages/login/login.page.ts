@@ -50,6 +50,7 @@ export class LoginPage implements OnInit {
           };
 
           localStorage.setItem('user', JSON.stringify(userSession));
+          localStorage.setItem('ingresado', 'true');
           this.loginError = null;
           this.router.navigate(['/tabs/home']);
         } else {

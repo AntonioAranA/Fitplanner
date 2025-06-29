@@ -41,7 +41,7 @@
         <span class="content-text-large">Calorías quemadas: <strong>1200 kcal</strong></span>
       </ion-item>
 
-      <!-- ✅ Mostrar clima si hay datos -->
+      <!--  Mostrar clima si hay datos -->
       <ng-container *ngIf="weatherData; else noWeather">
         <ion-item>
           <ion-thumbnail slot="start">
@@ -59,7 +59,7 @@
         </ion-note>
       </ng-container>
 
-      <!-- ❌ Sin datos -->
+      <!--  Sin datos -->
       <ng-template #noWeather>
         <ion-item>
           <ion-icon slot="start" name="alert-circle-outline" color="medium"></ion-icon>

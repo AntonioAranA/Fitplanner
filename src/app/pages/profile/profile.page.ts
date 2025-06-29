@@ -37,6 +37,7 @@ export class ProfilePage implements OnInit {
       const user = JSON.parse(userData);
       user.isLoggedIn = false;
       localStorage.setItem('user', JSON.stringify(user));
+      localStorage.removeItem('ingresado');
     }
     this.router.navigateByUrl('/login', { replaceUrl: true });
   }
