@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import { Component } from '@angular/core';
 import { SQLiteService } from '../../../services/sqlite.service';
 
 @Component({
@@ -7,19 +7,13 @@ import { SQLiteService } from '../../../services/sqlite.service';
   styleUrls: ['./routine.page.scss'],
   standalone: false,
 })
-export class RoutinePage implements OnInit {
+export class RoutinePage {
   rutinas: any[] = [];
-  
   openedIndexes: Set<number> = new Set();
 
   constructor(private sqliteService: SQLiteService) {}
 
-  async ngOnInit() {
-  await this.sqliteService.initDB(); 
-  this.rutinas = await this.sqliteService.getRutinasConEjercicios(); 
-
-}
-
-
-
+  async ionViewWillEnter() {
+    this.rutinas = await this.sqliteService.getRutinasConEjercicios(); 
+  }
 }

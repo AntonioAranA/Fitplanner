@@ -9,17 +9,20 @@ export interface WeatherData {
   name: string;
 }
 
-@Injectable({
-  providedIn: 'root'
-})
+@Injectable({ providedIn: 'root' })
 export class WeatherService {
   private apiKey = 'c95a28184dae946ec5df34669e580c1b';
   private apiUrl = 'https://api.openweathermap.org/data/2.5/weather';
 
   constructor(private http: HttpClient) {}
 
-  getWeather(city: string): Observable<WeatherData> {
+  getWeatherByCity(city: string): Observable<WeatherData> {
     const url = `${this.apiUrl}?q=${city}&appid=${this.apiKey}&units=metric&lang=es`;
+    return this.http.get<WeatherData>(url);
+  }
+
+  getWeatherByCoords(lat: number, lon: number): Observable<WeatherData> {
+    const url = `${this.apiUrl}?lat=${lat}&lon=${lon}&appid=${this.apiKey}&units=metric&lang=es`;
     return this.http.get<WeatherData>(url);
   }
 }

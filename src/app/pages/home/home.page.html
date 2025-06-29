@@ -24,11 +24,11 @@
 <ion-content class="ion-padding" fullscreen>
   <ng-container [ngSwitch]="selectedSegment">
 
-  <ion-card *ngSwitchCase="'overview'" class="card-segment">
+    <ion-card *ngSwitchCase="'overview'" class="card-segment">
   <ion-card-header>
     <ion-card-title class="card-title-large">Resumen de Hoy</ion-card-title>
   </ion-card-header>
-  
+
   <ion-card-content>
     <ion-list lines="none">
       <ion-item>
@@ -41,21 +41,36 @@
         <span class="content-text-large">Calorías quemadas: <strong>1200 kcal</strong></span>
       </ion-item>
 
-      <ion-item *ngIf="weatherData">
-        <ion-thumbnail slot="start">
-          <img [src]="'https://openweathermap.org/img/wn/' + weatherData.weather[0].icon + '@2x.png'" alt="Clima">
-        </ion-thumbnail>
-        <ion-label class="content-text-large">
-          Clima actual en {{ weatherData.name }}:
-          <strong>{{ weatherData.main.temp }}°C</strong> -
-          {{ weatherData.weather[0].description }}
-        </ion-label>
-      </ion-item>
+      <!-- ✅ Mostrar clima si hay datos -->
+      <ng-container *ngIf="weatherData; else noWeather">
+        <ion-item>
+          <ion-thumbnail slot="start">
+            <img [src]="'https://openweathermap.org/img/wn/' + weatherData.weather[0].icon + '@2x.png'" alt="Clima">
+          </ion-thumbnail>
+          <ion-label class="content-text-large">
+            Clima actual en {{ weatherData.name }}:
+            <strong>{{ weatherData.main.temp }}°C</strong> -
+            {{ weatherData.weather[0].description }}
+          </ion-label>
+        </ion-item>
 
+        <ion-note color="medium" *ngIf="ultimaUbicacion">
+          Mostrando datos desde la última ubicación guardada por falta de conexión.
+        </ion-note>
+      </ng-container>
+
+      <!-- ❌ Sin datos -->
+      <ng-template #noWeather>
+        <ion-item>
+          <ion-icon slot="start" name="alert-circle-outline" color="medium"></ion-icon>
+          <ion-label class="content-text-large">
+            No hay datos de clima disponibles en este momento.
+          </ion-label>
+        </ion-item>
+      </ng-template>
     </ion-list>
   </ion-card-content>
 </ion-card>
-
 
 
     <ion-card *ngSwitchCase="'workouts'" class="card-segment">
@@ -80,19 +95,22 @@
       </ion-card-content>
     </ion-card>
 
-<ion-card *ngSwitchCase="'tips'" class="card-segment">
-  <ion-card-header>
-    <ion-card-title class="card-title-large">Consejos para Entrenar</ion-card-title>
-  </ion-card-header>
-  <ion-card-content>
-    <ion-list lines="none">
-      <ion-item *ngFor="let consejo of consejos" class="fade-slide-up">
-        <ion-icon slot="start" name="bulb-outline" color="medium"></ion-icon>
-        <ion-label>
-          <h3>{{ consejo.titulo }}</h3>
-          <p>{{ consejo.descripcion }}</p>
-        </ion-label>
-      </ion-item>
-    </ion-list>
-  </ion-card-content>
-</ion-card>
+    <ion-card *ngSwitchCase="'tips'" class="card-segment">
+      <ion-card-header>
+        <ion-card-title class="card-title-large">Consejos para Entrenar</ion-card-title>
+      </ion-card-header>
+      <ion-card-content>
+        <ion-list lines="none">
+          <ion-item *ngFor="let consejo of consejos" class="fade-slide-up">
+            <ion-icon slot="start" name="bulb-outline" color="medium"></ion-icon>
+            <ion-label>
+              <h3>{{ consejo.titulo }}</h3>
+              <p>{{ consejo.descripcion }}</p>
+            </ion-label>
+          </ion-item>
+        </ion-list>
+      </ion-card-content>
+    </ion-card>
+
+  </ng-container>
+</ion-content>

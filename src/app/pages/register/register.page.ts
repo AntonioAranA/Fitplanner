@@ -1,6 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { Router } from '@angular/router';
+import { SQLiteService } from 'src/services/sqlite.service';
 
 @Component({
   selector: 'app-register',
@@ -10,8 +11,13 @@ import { Router } from '@angular/router';
 })
 export class RegisterPage implements OnInit {
   registerForm!: FormGroup;
+  registerError: string | null = null;
 
-  constructor(private fb: FormBuilder, private router: Router) {}
+  constructor(
+    private fb: FormBuilder,
+    private router: Router,
+    private sqliteService: SQLiteService
+  ) {}
 
   ngOnInit() {
     this.registerForm = this.fb.group({
@@ -38,20 +44,24 @@ export class RegisterPage implements OnInit {
     return this.registerForm.get('confirmPassword')!;
   }
 
-  onSubmit() {
-    if (this.registerForm.valid && this.password.value === this.confirmPassword.value) {
-      const user = {
-        name: this.name.value,
-        email: this.email.value,
-        password: this.password.value,
-      };
+  async onSubmit() {
+    if (
+      this.registerForm.valid &&
+      this.password.value === this.confirmPassword.value
+    ) {
+      const nombre = this.name.value;
+      const email = this.email.value;
+      const password = this.password.value;
 
-      // Guardar en localStorage
-      localStorage.setItem('user', JSON.stringify(user));
+      const registrado = await this.sqliteService.registrarUsuario(nombre, email, password);
 
-      console.log('Usuario registrado con éxito:', user);
-
-      this.router.navigate(['/login']);
+      if (registrado) {
+        this.registerError = null;
+        console.log('Usuario registrado exitosamente en SQLite');
+        this.router.navigate(['/login']);
+      } else {
+        this.registerError = 'El correo ya está registrado. Intenta con otro.';
+      }
     } else {
       this.registerForm.markAllAsTouched();
     }

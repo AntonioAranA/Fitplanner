@@ -1,6 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { Router } from '@angular/router';
+import { SQLiteService } from 'src/services/sqlite.service';
 
 @Component({
   selector: 'app-login',
@@ -10,9 +11,13 @@ import { Router } from '@angular/router';
 })
 export class LoginPage implements OnInit {
   loginForm!: FormGroup;
-  loginError: string | null = null; // Para mostrar errores
+  loginError: string | null = null;
 
-  constructor(private fb: FormBuilder, private router: Router) {}
+  constructor(
+    private fb: FormBuilder,
+    private router: Router,
+    private sqliteService: SQLiteService,
+  ) {}
 
   ngOnInit() {
     this.loginForm = this.fb.group({
@@ -29,34 +34,39 @@ export class LoginPage implements OnInit {
     return this.loginForm.get('password')!;
   }
 
-  onLogin() {
-  if (this.loginForm.valid) {
-    const storedUserStr = localStorage.getItem('user');
+  async onLogin() {
+    if (this.loginForm.valid) {
+      const email = this.email.value;
+      const password = this.password.value;
 
-    if (!storedUserStr) {
-      this.loginError = 'No hay usuarios registrados. Por favor regístrate primero.';
-      return;
-    }
+      try {
+        const usuario = await this.sqliteService.validarUsuario(email, password);
 
-    const storedUser = JSON.parse(storedUserStr);
+        if (usuario) {
+          const userSession = {
+            name: usuario.nombre,
+            email: usuario.email,
+            isLoggedIn: true
+          };
 
-    if (
-      storedUser.email === this.email.value &&
-      storedUser.password === this.password.value
-    ) {
-      // Login exitoso - actualizar isLoggedIn
-      storedUser.isLoggedIn = true;
-      localStorage.setItem('user', JSON.stringify(storedUser));
-
-      this.loginError = null;
-      console.log('Login exitoso', this.loginForm.value);
-      this.router.navigate(['/tabs/home']);
+          localStorage.setItem('user', JSON.stringify(userSession));
+          this.loginError = null;
+          this.router.navigate(['/tabs/home']);
+        } else {
+          // Usuario no encontrado → Verificamos si el email existe
+          const emailExiste = await this.sqliteService.existeEmail?.(email);
+          if (emailExiste) {
+            this.loginError = 'Contraseña incorrecta.';
+          } else {
+            this.loginError = 'Correo no registrado.';
+          }
+        }
+      } catch (error) {
+        console.error('Error durante el login:', error);
+        this.loginError = 'Ocurrió un error al intentar iniciar sesión.';
+      }
     } else {
-      // Credenciales incorrectas
-      this.loginError = 'Email o contraseña incorrectos.';
+      this.loginForm.markAllAsTouched();
     }
-  } else {
-    this.loginForm.markAllAsTouched();
   }
-}
 }

@@ -52,5 +52,10 @@
 
     <!-- Botón -->
     <ion-button expand="block" type="submit" class="fade-slide-up delay-6">Registrarse</ion-button>
+
+    <!-- Error de registro -->
+    <ion-text color="danger" *ngIf="registerError" class="ion-text-center ion-margin-top fade-slide-up delay-6">
+      <p>{{ registerError }}</p>
+    </ion-text>
   </form>
 </ion-content>
