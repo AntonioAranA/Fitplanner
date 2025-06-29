@@ -1,0 +1,20 @@
+[
+  {
+    "id": 1,
+    "titulo": "Hidrátate bien",
+    "descripcion": "Beber al menos 2 litros de agua al día mejora tu rendimiento físico y mental.",
+    "categoria": "Hidratación"
+  },
+  {
+    "id": 2,
+    "titulo": "Duerme lo suficiente",
+    "descripcion": "Dormir entre 7 y 9 horas ayuda a la recuperación muscular y mejora tu salud.",
+    "categoria": "Descanso"
+  },
+  {
+    "id": 3,
+    "titulo": "Come frutas y verduras",
+    "descripcion": "Incorpora frutas y verduras variadas en cada comida del día.",
+    "categoria": "Nutrición"
+  }
+]

@@ -1,37 +1,25 @@
-import { Component } from '@angular/core';
+import { Component, OnInit } from '@angular/core';
+import { SQLiteService } from '../../../services/sqlite.service';
 
 @Component({
   selector: 'app-routine',
   templateUrl: './routine.page.html',
   styleUrls: ['./routine.page.scss'],
-  standalone: false
+  standalone: false,
 })
-export class RoutinePage {
-  rutina = [
-    {
-      nombre: 'Sentadillas',
-      repeticiones: '3 series de 15 repeticiones',
-      imagen: 'assets/ejercicios/sentadillas.jpg'
-    },
-    {
-      nombre: 'Flexiones',
-      repeticiones: '3 series de 10 repeticiones',
-      imagen: 'assets/ejercicios/flexiones.jpg'
-    },
-    {
-      nombre: 'Abdominales',
-      repeticiones: '3 series de 20 repeticiones',
-      imagen: 'assets/ejercicios/abdominales.jpg'
-    },
-    {
-      nombre: 'Plancha',
-      repeticiones: '3 series de 30 segundos',
-      imagen: 'assets/ejercicios/plancha.jpg'
-    },
-    {
-      nombre: 'Zancadas',
-      repeticiones: '3 series de 12 por pierna',
-      imagen: 'assets/ejercicios/zancadas.webp'
-    }
-  ];
+export class RoutinePage implements OnInit {
+  rutinas: any[] = [];
+  
+  openedIndexes: Set<number> = new Set();
+
+  constructor(private sqliteService: SQLiteService) {}
+
+  async ngOnInit() {
+  await this.sqliteService.initDB(); 
+  this.rutinas = await this.sqliteService.getRutinasConEjercicios(); 
+
+}
+
+
+
 }

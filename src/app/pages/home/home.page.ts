@@ -1,4 +1,6 @@
 import { Component, OnInit } from '@angular/core';
+import { ConsejosService, Consejo } from 'src/services/consejos.service';
+import { WeatherService, WeatherData } from 'src/services/weather.service';
 
 @Component({
   selector: 'app-home',
@@ -7,11 +9,31 @@ import { Component, OnInit } from '@angular/core';
   standalone: false
 })
 export class HomePage implements OnInit {
+  selectedSegment = 'overview';
+  consejos: Consejo[] = [];
+  weatherData: WeatherData | undefined;
 
-  selectedSegment: string = 'overview'; // Valor inicial 'overview' para mostrar el resumen
+  constructor(
+    private consejosService: ConsejosService,
+    private weatherService: WeatherService
+  ) {}
 
-  constructor() { }
+  ngOnInit() {
+    this.cargarConsejos();
+    this.cargarClima(); // importante
+  }
 
-  ngOnInit() {}
+  cargarConsejos() {
+    this.consejosService.getConsejos().subscribe({
+      next: (data) => this.consejos = data,
+      error: (err) => console.error('Error al cargar consejos:', err)
+    });
+  }
 
+  cargarClima() {
+    this.weatherService.getWeather('San Felipe').subscribe({
+      next: (data) => this.weatherData = data,
+      error: (err) => console.error('Error al obtener clima:', err)
+    });
+  }
 }

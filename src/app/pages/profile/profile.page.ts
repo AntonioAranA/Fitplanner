@@ -1,5 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { Router } from '@angular/router';
+import { Camera, CameraResultType, CameraSource } from '@capacitor/camera';
+import { Filesystem, Directory } from '@capacitor/filesystem';
 
 @Component({
   selector: 'app-profile',
@@ -9,6 +11,7 @@ import { Router } from '@angular/router';
 })
 export class ProfilePage implements OnInit {
   user: { name: string; email: string; isLoggedIn?: boolean } = { name: '', email: '' };
+  photo: string | null = null;  // Base64 string para mostrar en <img>
 
   constructor(private router: Router) {}
 
@@ -19,22 +22,62 @@ export class ProfilePage implements OnInit {
       if (user.isLoggedIn) {
         this.user = user;
       } else {
-        // Si no está logueado, redirige a login
         this.router.navigateByUrl('/login', { replaceUrl: true });
       }
     } else {
-      // No hay usuario guardado, redirige a login
       this.router.navigateByUrl('/login', { replaceUrl: true });
     }
+
+    this.loadPhoto();
   }
 
   logout() {
     const userData = localStorage.getItem('user');
     if (userData) {
       const user = JSON.parse(userData);
-      user.isLoggedIn = false; // Solo cambiar el estado de sesión
+      user.isLoggedIn = false;
       localStorage.setItem('user', JSON.stringify(user));
     }
     this.router.navigateByUrl('/login', { replaceUrl: true });
+  }
+
+  async takePhoto() {
+    try {
+      const photo = await Camera.getPhoto({
+        quality: 90,
+        resultType: CameraResultType.Base64,
+        source: CameraSource.Prompt
+      });
+
+      if (photo.base64String) {
+        await this.savePhoto(photo.base64String);
+      }
+    } catch (error) {
+      console.error('Error tomando la foto:', error);
+    }
+  }
+
+  private async savePhoto(base64Data: string) {
+    try {
+      await Filesystem.writeFile({
+        path: 'profile_photo.jpeg',
+        data: base64Data,
+        directory: Directory.Data
+      });
+
+      // Prepara el base64 para mostrarlo en <img>
+      this.photo = 'data:image/jpeg;base64,' + base64Data;
+
+      localStorage.setItem('profile_photo_base64', this.photo);
+    } catch (error) {
+      console.error('Error guardando la foto:', error);
+    }
+  }
+
+  private async loadPhoto() {
+    const photoBase64 = localStorage.getItem('profile_photo_base64');
+    if (photoBase64) {
+      this.photo = photoBase64;
+    }
   }
 }

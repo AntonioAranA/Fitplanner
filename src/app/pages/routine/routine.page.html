@@ -1,15 +1,32 @@
-<ion-header class="animated-header">
-  <ion-toolbar color="primary">
-    <ion-title>Rutina del Día</ion-title>
+<ion-header>
+  <ion-toolbar class="fade-in delay-1">
+    <ion-title>Mis Rutinas</ion-title>
   </ion-toolbar>
 </ion-header>
 
-<ion-content [fullscreen]="true" class="ion-padding">
-  <ion-card *ngFor="let ejercicio of rutina" class="touch-card card-flex">
-    <img [src]="ejercicio.imagen" alt="{{ ejercicio.nombre }}" class="card-image" />
-    <ion-card-header class="card-header-flex">
-      <ion-card-title>{{ ejercicio.nombre }}</ion-card-title>
-      <ion-card-subtitle>{{ ejercicio.repeticiones }}</ion-card-subtitle>
-    </ion-card-header>
-  </ion-card>
+<ion-content class="ion-padding">
+  <ion-accordion-group>
+     <ion-accordion
+    *ngFor="let rutina of rutinas; let i = index"
+    class="fade-in delay-{{ i + 1 }}"
+    (ionAccordionDidPresent)="openedIndexes.add(i)"
+  >
+      <ion-item slot="header">
+        <ion-label>{{ rutina.nombre }}</ion-label>
+      </ion-item>
+      <div slot="content">
+        <ion-list>
+          <ion-item *ngFor="let ejercicio of rutina.ejercicios; let j = index" class="slide-up delay-{{ j + 1 }}">
+            <ion-thumbnail slot="start">
+              <img [src]="ejercicio.imagen" alt="{{ ejercicio.nombre }}">
+            </ion-thumbnail>
+            <ion-label>
+              <h3>{{ ejercicio.nombre }}</h3>
+              <p>{{ ejercicio.repeticiones }}</p>
+            </ion-label>
+          </ion-item>
+        </ion-list>
+      </div>
+    </ion-accordion>
+  </ion-accordion-group>
 </ion-content>

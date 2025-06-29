@@ -5,7 +5,26 @@
 </ion-header>
 
 <ion-content class="ion-padding">
-  <ion-card class="fade-slide-up">
+
+  <!-- Avatar con foto personalizada o imagen por defecto -->
+  <ion-avatar
+    class="fade-slide-up auto-center"
+    style="width: 120px; height: 120px; margin: 0 auto 16px;"
+  >
+    <!-- Mostrar la foto guardada si existe -->
+    <img *ngIf="photo; else defaultAvatar" [src]="photo" />
+    <ng-template #defaultAvatar>
+      <img src="assets/avatar-placeholder.png" />
+    </ng-template>
+  </ion-avatar>
+
+  <!-- Botón para tomar o cambiar la foto -->
+  <ion-button expand="block" color="medium" (click)="takePhoto()" class="fade-slide-up delay-1">
+    Cambiar Foto de Perfil
+  </ion-button>
+
+  <!-- Datos del usuario -->
+  <ion-card class="fade-slide-up delay-2">
     <ion-card-header>
       <ion-card-title>👤 {{ user.name }}</ion-card-title>
     </ion-card-header>
@@ -14,7 +33,9 @@
     </ion-card-content>
   </ion-card>
 
-  <ion-button type="button" expand="block" color="danger" (click)="logout()" class="fade-slide-up delay-1">
+  <!-- Botón para cerrar sesión -->
+  <ion-button type="button" expand="block" color="danger" (click)="logout()" class="fade-slide-up delay-3">
     Cerrar sesión
   </ion-button>
+
 </ion-content>
