@@ -32,3 +32,60 @@
     transform: translateY(0);
   }
 }
+
+.register-wrapper {
+  display: flex;
+  flex-direction: column;
+  justify-content: flex-start;
+  align-items: center;
+  min-height: 100vh;
+  padding-top: 140px; // Puedes ajustar más si deseas
+}
+
+.logo-container {
+  margin-bottom: 30px;
+}
+
+.logo-icon {
+  font-size: 70px;
+  color: var(--ion-color-primary);
+  animation: bounce 1.6s ease infinite;
+}
+
+.fade-slide-up {
+  opacity: 0;
+  transform: translateY(20px);
+  animation: fadeSlideUp 600ms ease forwards;
+}
+
+.fade-slide-down {
+  opacity: 0;
+  transform: translateY(-20px);
+  animation: fadeSlideDown 600ms ease forwards;
+}
+
+@keyframes fadeSlideUp {
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+@keyframes fadeSlideDown {
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+@keyframes bounce {
+  0%, 100% { transform: translateY(0); }
+  50% { transform: translateY(-10px); }
+}
+
+.delay-1 { animation-delay: 100ms; }
+.delay-2 { animation-delay: 200ms; }
+.delay-3 { animation-delay: 300ms; }
+.delay-4 { animation-delay: 400ms; }
+.delay-5 { animation-delay: 500ms; }
+.delay-6 { animation-delay: 600ms; }

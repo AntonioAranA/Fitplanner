@@ -1,5 +1,5 @@
 import { Component } from '@angular/core';
-import { SQLiteService } from '../../../services/sqlite.service';
+import { SQLiteService } from 'src/services/sqlite.service';
 
 @Component({
   selector: 'app-routine',
@@ -14,6 +14,19 @@ export class RoutinePage {
   constructor(private sqliteService: SQLiteService) {}
 
   async ionViewWillEnter() {
-    this.rutinas = await this.sqliteService.getRutinasConEjercicios(); 
+    await this.sqliteService.initDB();
+    this.rutinas = await this.sqliteService.getRutinasConEjercicios();
+  }
+
+  toggleRutina(index: number) {
+    if (this.openedIndexes.has(index)) {
+      this.openedIndexes.delete(index);
+    } else {
+      this.openedIndexes.add(index);
+    }
+  }
+
+  isOpen(index: number): boolean {
+    return this.openedIndexes.has(index);
   }
 }

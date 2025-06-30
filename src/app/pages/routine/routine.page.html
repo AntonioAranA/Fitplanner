@@ -1,32 +1,31 @@
-<ion-header>
-  <ion-toolbar class="fade-in delay-1">
-    <ion-title>Mis Rutinas</ion-title>
+<ion-header class="animated-header">
+  <ion-toolbar color="primary">
+    <ion-title>FitPlanner</ion-title>
   </ion-toolbar>
 </ion-header>
 
 <ion-content class="ion-padding">
-  <ion-accordion-group>
-     <ion-accordion
-    *ngFor="let rutina of rutinas; let i = index"
-    class="fade-in delay-{{ i + 1 }}"
-    (ionAccordionDidPresent)="openedIndexes.add(i)"
-  >
-      <ion-item slot="header">
-        <ion-label>{{ rutina.nombre }}</ion-label>
-      </ion-item>
-      <div slot="content">
-        <ion-list>
-          <ion-item *ngFor="let ejercicio of rutina.ejercicios; let j = index" class="slide-up delay-{{ j + 1 }}">
-            <ion-thumbnail slot="start">
-              <img [src]="ejercicio.imagen" alt="{{ ejercicio.nombre }}">
-            </ion-thumbnail>
-            <ion-label>
-              <h3>{{ ejercicio.nombre }}</h3>
-              <p>{{ ejercicio.repeticiones }}</p>
-            </ion-label>
-          </ion-item>
-        </ion-list>
-      </div>
-    </ion-accordion>
-  </ion-accordion-group>
+  <ion-card *ngFor="let rutina of rutinas; let i = index"
+            class="rutina-card fade-slide-up"
+            [ngClass]="'delay-' + (i + 2)">
+    <ion-card-header (click)="toggleRutina(i)" class="rutina-header">
+      <ion-card-title>{{ rutina.nombre }}</ion-card-title>
+      <ion-icon [name]="isOpen(i) ? 'chevron-up' : 'chevron-down'" slot="end"></ion-icon>
+    </ion-card-header>
+
+    <div class="rutina-contenido" [class.abierto]="isOpen(i)">
+      <ion-list *ngIf="isOpen(i)">
+        <ion-item *ngFor="let ejercicio of rutina.ejercicios" class="fade-slide-up">
+          <ion-thumbnail slot="start">
+            <img [src]="ejercicio.imagen" alt="Ejercicio">
+          </ion-thumbnail>
+          <ion-label>
+            <h3>{{ ejercicio.nombre }}</h3>
+            <p>{{ ejercicio.descripcion }}</p>
+            <p><strong>Repeticiones:</strong> {{ ejercicio.repeticiones }}</p>
+          </ion-label>
+        </ion-item>
+      </ion-list>
+    </div>
+  </ion-card>
 </ion-content>
