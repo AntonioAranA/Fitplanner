@@ -127,6 +127,12 @@ async registrarUsuario(nombre: string, email: string, password: string): Promise
   if (!this.db) throw new Error('DB no inicializada');
 
   try {
+    const emailExiste = await this.existeEmail(email);
+    if (emailExiste) {
+      // El correo ya está registrado, no intentar insertar
+      return false;
+    }
+
     await this.db.run(
       `INSERT INTO usuarios (nombre, email, password) VALUES (?, ?, ?)`,
       [nombre, email, password]
