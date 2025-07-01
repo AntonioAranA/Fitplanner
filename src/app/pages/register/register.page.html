@@ -55,6 +55,10 @@
         <p>Las contraseñas no coinciden.</p>
       </ion-text>
 
+      <ion-text color="danger" *ngIf="registerError" class="fade-slide-up delay-5" style="display: block; margin-top: 10px; font-size: 0.9em; max-width: 250px;">
+       <p>{{ registerError }}</p>
+      </ion-text>
+
       <ion-button expand="block" type="submit" class="fade-slide-up delay-6">Registrarse</ion-button>
     </form>
   </div>
