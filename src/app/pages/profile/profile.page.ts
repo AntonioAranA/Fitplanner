@@ -48,7 +48,7 @@ export class ProfilePage implements OnInit {
 
     await this.solicitarPermisoNotificaciones();
 
-    // --- Aquí agregamos la creación del canal de notificaciones ---
+    // --- Creación del canal de notificaciones ---
     await LocalNotifications.createChannel({
       id: 'fitplanner-channel',
       name: 'Notificaciones FitPlanner',
