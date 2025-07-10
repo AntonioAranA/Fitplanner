@@ -7,14 +7,16 @@ import { IonicModule } from '@ionic/angular';
 import { ProfilePageRoutingModule } from './profile-routing.module';
 
 import { ProfilePage } from './profile.page';
+import { HoraSelectorComponent } from 'src/app/components/hora-selector.component';
 
 @NgModule({
   imports: [
     CommonModule,
     FormsModule,
     IonicModule,
-    ProfilePageRoutingModule
+    ProfilePageRoutingModule,
+    
   ],
-  declarations: [ProfilePage]
+  declarations: [ProfilePage,HoraSelectorComponent ]
 })
 export class ProfilePageModule {}

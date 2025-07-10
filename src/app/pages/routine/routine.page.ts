@@ -14,9 +14,18 @@ export class RoutinePage {
   constructor(private sqliteService: SQLiteService) {}
 
   async ionViewWillEnter() {
-    await this.sqliteService.initDB();
-    this.rutinas = await this.sqliteService.getRutinasConEjercicios();
-  }
+  const start = performance.now(); // ⏱️ Inicio
+
+  await this.sqliteService.initDB();
+  this.rutinas = await this.sqliteService.getRutinasConEjercicios();
+
+  const end = performance.now(); // ⏱️ Fin
+  const duracion = (end - start).toFixed(2);
+  console.log(`⏳ Tiempo de carga de rutinas: ${duracion} ms`);
+
+
+}
+
 
   toggleRutina(index: number) {
     if (this.openedIndexes.has(index)) {

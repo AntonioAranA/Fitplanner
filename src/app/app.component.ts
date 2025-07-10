@@ -2,6 +2,7 @@ import { Component } from '@angular/core';
 import { Platform } from '@ionic/angular';
 import { SQLiteService } from 'src/services/sqlite.service';
 import { Router } from '@angular/router';
+import { LocalNotifications } from '@capacitor/local-notifications';
 
 @Component({
   selector: 'app-root',
@@ -26,6 +27,14 @@ export class AppComponent {
       console.log('SQLite inicializado desde app.component');
     } catch (error) {
       console.error('Error al inicializar SQLite:', error);
+    }
+
+    // Solicitar permisos para notificaciones locales
+    const permission = await LocalNotifications.requestPermissions();
+    if (permission.display === 'granted') {
+      console.log('Permiso de notificaciones concedido');
+    } else {
+      console.warn('Permiso de notificaciones denegado');
     }
 
     this.verificarSesion();

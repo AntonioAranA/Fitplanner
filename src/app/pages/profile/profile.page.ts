@@ -2,6 +2,9 @@ import { Component, OnInit } from '@angular/core';
 import { Router } from '@angular/router';
 import { Camera, CameraResultType, CameraSource } from '@capacitor/camera';
 import { Filesystem, Directory } from '@capacitor/filesystem';
+import { LocalNotifications } from '@capacitor/local-notifications';
+import { ToastController, ModalController } from '@ionic/angular';
+import { HoraSelectorComponent } from 'src/app/components/hora-selector.component';
 
 @Component({
   selector: 'app-profile',
@@ -11,11 +14,16 @@ import { Filesystem, Directory } from '@capacitor/filesystem';
 })
 export class ProfilePage implements OnInit {
   user: { name: string; email: string; isLoggedIn?: boolean } = { name: '', email: '' };
-  photo: string | null = null;  // Base64 string para mostrar en <img>
+  photo: string | null = null;
+  horaNotificacion: string = new Date().toISOString();
 
-  constructor(private router: Router) {}
+  constructor(
+    private router: Router,
+    private toastCtrl: ToastController,
+    private modalCtrl: ModalController
+  ) {}
 
-  ngOnInit() {
+  async ngOnInit() {
     const userData = localStorage.getItem('user');
     if (userData) {
       const user = JSON.parse(userData);
@@ -28,7 +36,25 @@ export class ProfilePage implements OnInit {
       this.router.navigateByUrl('/login', { replaceUrl: true });
     }
 
-    this.loadPhoto();
+    await this.loadPhoto();
+
+    const horaGuardada = localStorage.getItem('horaNotificacion');
+    if (horaGuardada) {
+      const hoy = new Date();
+      const [h, m] = horaGuardada.split(':').map(Number);
+      hoy.setHours(h, m, 0, 0);
+      this.horaNotificacion = hoy.toISOString();
+    }
+
+    await this.solicitarPermisoNotificaciones();
+
+    // --- Aquí agregamos la creación del canal de notificaciones ---
+    await LocalNotifications.createChannel({
+      id: 'fitplanner-channel',
+      name: 'Notificaciones FitPlanner',
+      importance: 5,
+      description: 'Canal para notificaciones diarias de rutinas',
+    });
   }
 
   logout() {
@@ -66,9 +92,7 @@ export class ProfilePage implements OnInit {
         directory: Directory.Data
       });
 
-      // Prepara el base64 para mostrarlo en <img>
       this.photo = 'data:image/jpeg;base64,' + base64Data;
-
       localStorage.setItem('profile_photo_base64', this.photo);
     } catch (error) {
       console.error('Error guardando la foto:', error);
@@ -79,6 +103,28 @@ export class ProfilePage implements OnInit {
     const photoBase64 = localStorage.getItem('profile_photo_base64');
     if (photoBase64) {
       this.photo = photoBase64;
+    }
+  }
+
+  async mostrarSelectorHora() {
+    const modal = await this.modalCtrl.create({
+      component: HoraSelectorComponent,
+      componentProps: {
+        horaActual: this.horaNotificacion
+      }
+    });
+
+    await modal.present();
+  }
+
+  private async solicitarPermisoNotificaciones() {
+    try {
+      const permission = await LocalNotifications.requestPermissions();
+      if (permission.display !== 'granted') {
+        console.warn('Permiso de notificaciones denegado');
+      }
+    } catch (error) {
+      console.error('Error solicitando permisos de notificación:', error);
     }
   }
 }

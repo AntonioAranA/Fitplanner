@@ -1,0 +1,62 @@
+@keyframes fadeSlideUp {
+  0% {
+    opacity: 0;
+    transform: translateY(20px);
+  }
+  100% {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+.animated-header {
+  animation: fadeSlideUp 0.5s ease forwards;
+}
+
+.fade-slide-up {
+  opacity: 0;
+  animation: fadeSlideUp 0.5s ease forwards;
+}
+
+.fade-slide-up.delay-1 {
+  animation-delay: 0.2s;
+}
+
+.fade-slide-up.delay-2 {
+  animation-delay: 0.4s;
+}
+
+ion-content {
+  --background: var(--ion-color-light);
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  height: 100%;
+
+  .subtitle {
+    font-size: 1.1rem;
+    color: var(--ion-color-primary);
+    margin-bottom: 20px;
+    font-weight: 600;
+  }
+
+  ion-datetime.custom-datetime {
+    --padding-start: 0;
+    --padding-end: 0;
+    --border-radius: 12px;
+    --box-shadow: 0 4px 8px rgba(0, 0, 0, 0.15);
+    --background: var(--ion-color-light);
+    margin-bottom: 30px;
+  }
+
+  .save-btn {
+    font-weight: 700;
+    font-size: 1.1rem;
+    --box-shadow: 0 5px 15px var(--ion-color-secondary);
+    transition: transform 0.15s ease-in-out;
+
+    &:hover {
+      transform: scale(1.05);
+    }
+  }
+}
