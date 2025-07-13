@@ -1,16 +1,26 @@
-import { TestBed } from '@angular/core/testing';
+import { ComponentFixture, TestBed } from '@angular/core/testing';
+import { HttpClientTestingModule } from '@angular/common/http/testing';
+import { HomePage } from 'src/app/pages/home/home.page';
+import { ConsejosService } from 'src/services/consejos.service';
+import { WeatherService } from 'src/services/weather.service';
 
-import { WeatherService } from './weather.service';
+describe('HomePage', () => {
+  let component: HomePage;
+  let fixture: ComponentFixture<HomePage>;
 
-describe('WeatherService', () => {
-  let service: WeatherService;
+  beforeEach(async () => {
+    await TestBed.configureTestingModule({
+      declarations: [HomePage], 
+      imports: [HttpClientTestingModule], 
+      providers: [ConsejosService, WeatherService]
+    }).compileComponents();
 
-  beforeEach(() => {
-    TestBed.configureTestingModule({});
-    service = TestBed.inject(WeatherService);
+    fixture = TestBed.createComponent(HomePage);
+    component = fixture.componentInstance;
+    fixture.detectChanges();
   });
 
-  it('should be created', () => {
-    expect(service).toBeTruthy();
+  it('should create', () => {
+    expect(component).toBeTruthy();
   });
 });

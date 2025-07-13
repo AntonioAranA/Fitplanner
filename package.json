@@ -39,6 +39,7 @@
     "@ionic/angular": "^8.0.0",
     "cordova-plugin-appsettings": "^1.0.2",
     "cordova-sqlite-storage": "^7.0.0",
+    "cypress": "^14.5.1",
     "ionicons": "^7.0.0",
     "rxjs": "~7.8.0",
     "tslib": "^2.3.0",
